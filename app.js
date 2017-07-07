@@ -402,18 +402,25 @@ isc.TabSet.create({
     // height: "40%",
     tabSelected: function(tabNum, tabPane, ID, tab, name) {
 
-        console.log("tab " + tabNum + 1, "selected");
-        // buildChart(tabNum + 1);
+        console.log("tab " + parseInt(tabNum + 1), "selected");
+        if (currentData.length > 1) {
+            console.log("buildchart for task:", tabNum + 1);
+            setTimeout(function() {
+                buildChart(tabNum + 1);
+            }, 100);
+            
+        }
+        // 
     },
     tabs: [
-        {title: "Task 1", pane: isc.Canvas.create({ autoDraw:false, contents: "<div id='t1' class='ct-chart'></div>" }) },
-        {title: "Task 2", pane: isc.Canvas.create({ autoDraw:false, contents: "<div id='t2' class='ct-chart'></div>" }) },
-        {title: "Task 3", pane: isc.Canvas.create({ autoDraw:false, contents: "<div id='t3' class='ct-chart'></div>" }) },
-        {title: "Task 4", pane: isc.Canvas.create({ autoDraw:false, contents: "<div id='t4' class='ct-chart'></div>" }) },
-        {title: "Task 5", pane: isc.Canvas.create({ autoDraw:false, contents: "<div id='t5' class='ct-chart'></div>" }) },
-        {title: "Task 6", pane: isc.Canvas.create({ autoDraw:false, contents: "<div id='t6' class='ct-chart'></div>" }) },
-        {title: "Task 7", pane: isc.Canvas.create({ autoDraw:false, contents: "<div id='t7' class='ct-chart'></div>" }) },
-        {title: "Task 8", pane: isc.Canvas.create({ autoDraw:false, contents: "<div id='t8' class='ct-chart'></div>" }) },
+        {title: "Task 1", pane: isc.Canvas.create({ contents: "<div id='t1' class='ct-chart'></div>" }) },
+        {title: "Task 2", pane: isc.Canvas.create({ contents: "<div id='t2' class='ct-chart'></div>" }) },
+        {title: "Task 3", pane: isc.Canvas.create({ contents: "<div id='t3' class='ct-chart'></div>" }) },
+        {title: "Task 4", pane: isc.Canvas.create({ contents: "<div id='t4' class='ct-chart'></div>" }) },
+        {title: "Task 5", pane: isc.Canvas.create({ contents: "<div id='t5' class='ct-chart'></div>" }) },
+        {title: "Task 6", pane: isc.Canvas.create({ contents: "<div id='t6' class='ct-chart'></div>" }) },
+        {title: "Task 7", pane: isc.Canvas.create({ contents: "<div id='t7' class='ct-chart'></div>" }) },
+        {title: "Task 8", pane: isc.Canvas.create({ contents: "<div id='t8' class='ct-chart'></div>" }) },
     ]
 });
 
@@ -570,10 +577,31 @@ isc.IButton.create({
         testResultsDS.fetchData(findForm.getValues(), function(resp, data) {
            // console.log(data) 
            currentData = data;
+        //    console.log(graficiTabSet.selectedTab);
            buildChart(1);
         });
     }
 });
+
+isc.IButton.create({
+    ID: "downloadCSV",
+    title: "Export CSV",
+    padding: 10,
+    height: 40,
+    autoDraw: false,
+    click: function() {
+        if (currentData.length > 0) {
+             
+            var csvData = new Blob([Papa.unparse(currentData)], {type: 'text/csv;charset=utf-8;'});
+            var link = document.createElement('a');
+            link.href = window.URL.createObjectURL(csvData);
+            link.setAttribute('download', "tabcog.csv");
+            document.body.appendChild(link);    
+            link.click();
+            document.body.removeChild(link);
+        }
+    }
+})
 
 isc.DynamicForm.create({
     ID: "refWeeksForm",
@@ -604,7 +632,7 @@ isc.VLayout.create({
             defaultLayoutAlign: "center",
             layoutMargin:10,
             membersMargin: 20,
-            members:[findForm, findButton, refWeeksForm, buildChartsButton]
+            members:[findForm, findButton, refWeeksForm, buildChartsButton, downloadCSV]
         }), 
         resultsBrowser,
         graficiTabSet
