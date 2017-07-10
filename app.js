@@ -277,12 +277,15 @@ isc.SearchForm.create({
     // border:"1px solid blue",
     fields:[
     
+        // {name:"user:uid", title: "ID Paziente", editorType:"comboBox", optionDataSource:"userIDlist", width: 200,
+        // pickListWidth:200, cellHeight: 80, value: 'babiloni'},
         {name:"user:uid", title: "ID Paziente", editorType:"comboBox", optionDataSource:"userIDlist", width: 200,
-        pickListWidth:200, cellHeight: 80, value: 'babiloni'},
+            pickListWidth:200, cellHeight: 80},
         // {name: "scegli", title: "boh", type: "date", useTextField: false,  wrapTitle:false},
-        {name:"dateRange", title: "Date Range", type:"date", dateFormatter: "toEuropeanShortDate", 
-            value: { start: new Date("01/01/2015"), end: new Date("12/31/2015")}
-         }
+        // {name:"dateRange", title: "Date Range", type:"date", dateFormatter: "toEuropeanShortDate", 
+        //     value: { start: new Date("01/01/2015"), end: new Date("12/31/2015")}}
+        {name:"dateRange", title: "Date Range", type:"date", dateFormatter: "toEuropeanShortDate"}
+
     // {name:"startDate", title:"End Date", type:"date",wrapTitle:false},
     // {name:"findInCategory", editorType:"checkbox", 
     //     title:"Use category", defaultValue:true, shouldSaveValue:false},

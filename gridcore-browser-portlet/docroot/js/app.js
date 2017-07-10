@@ -318,7 +318,7 @@ isc.ListGrid.create({
 	top: 50,
     
 	dataSource: "testResultsDS",
-	autoFetchData: false,
+	autoFetchData: true,
 	canEdit: false,
 	dataPageSize: 100,
     headerHeight: 44,
